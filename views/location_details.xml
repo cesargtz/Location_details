@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <openerp>
+        <data>
+            <record model="ir.ui.view" id="location_details_fields_view">
+                <field name="name">location.details.fields</field>
+                <field name="model">stock.location</field>
+                <field name="inherit_id" ref="stock.view_location_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='comment']" position="after">
+                        <notebook>
+                            <page string="Details">
+                                <group col="4">
+                                    <group col="4">
+                                        <field name="total_tons_reception"/>
+                                        <field name="total_tons_outlet"/>                                     
+                                        <field name="percentage_quality_reception"/>
+                                        <field name="percentage_quality_damaged"/>
+                                        <field name="wet_kilos_discount"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Truck Reception">
+                                <field name="truck_reception"/>
+                            </page>
+                            <page string="Truck Outlet">
+                                <field name="truck_outlet"/>
+                            </page>
+                            <page string="Wagon Outlet">
+                                <field name="wagon_outlet"/>
+                            </page>
+                            <page string="Truck Transfer">
+                                <field name="truck_internal"/>
+                            </page>
+                        </notebook>
+                    </xpath>          
+                </field>
+            </record>
+        </data>
+    </openerp>

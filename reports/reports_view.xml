@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <report
+        id="location_report_pdf"
+        model="report.location_details_report_pdf"
+        string="Reporte detallado de Almacen"
+        report_type="qweb-pdf"
+        name="location_details_report_pdf"
+        file="location_details_report_pdf"
+        attachment_use="True"/>
+    </data>
+</openerp>
