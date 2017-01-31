@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from openerp.osv import fields, osv
+from datetime import datetime, date, timedelta
+from openerp.osv import osv, fields
 from openerp.report import report_sxw
 
 class Location_Details_Report(osv.AbstractModel):
