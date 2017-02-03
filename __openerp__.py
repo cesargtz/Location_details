@@ -28,8 +28,6 @@
     'data': [
         # 'security/ir.model.access.csv',
           'views/location_details.xml',
-          'wizard/location_details_wizard.xml',
-          'reports/location_details_template.xml',
-          'reports/reports_view.xml',
+   
     ],
 }

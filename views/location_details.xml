@@ -10,27 +10,27 @@
                         <notebook>
                             <page string="Details">
                                 <group col="4">
-                                    <group col="4">
-                                        <field name="total_tons_reception"/>
-                                        <field name="total_tons_outlet"/>                                     
-                                        <field name="percentage_quality_reception"/>
-                                        <field name="percentage_quality_damaged"/>
-                                        <field name="wet_kilos_discount"/>
+                                    <group col="3">
+                                      <group col="2" string="Toneladas">
+                                        <field name="total_tons_reception" string="Toneladas de Entrada"/>
+                                        <field name="total_tons_outlet" string="Tonedeladas de Salida"/>
+                                        <field name="total_tons_available" string="Toneldas disponibles"/>
+                                      </group>       
+                                      <group col="2" string="Calidad">                             
+                                        <field name="percentage_quality_reception" string="Humedad"/>
+                                        <field name="percentage_quality_damaged" string="Dano"/>
+                                        <field name="percentage_quality_impurity" string="Impureza"/>
+                                        <field name="percentage_quality_break" string="Quebrado"/>
+                                      </group>
+                                      <group col="2" string="Descontado">
+                                        <field name="wet_kilos_discount" string="Por Humedad"/>
+                                        <field name="damaged_kilos_discount" string="Por Dano"/>
+                                        <field name="impure_kilos_discount" string="Por Impureza"/>
+                                        <field name="broken_kilos_discount" string="Por Quebrado"/>
+                                      </group>
                                     </group>
                                 </group>
-                            </page>
-                            <page string="Truck Reception">
-                                <field name="truck_reception"/>
-                            </page>
-                            <page string="Truck Outlet">
-                                <field name="truck_outlet"/>
-                            </page>
-                            <page string="Wagon Outlet">
-                                <field name="wagon_outlet"/>
-                            </page>
-                            <page string="Truck Transfer">
-                                <field name="truck_internal"/>
-                            </page>
+                            </page>            
                         </notebook>
                     </xpath>          
                 </field>
