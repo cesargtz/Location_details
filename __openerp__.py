@@ -22,7 +22,9 @@
     # any module necessary for this one to work correctly
     'depends': ['base',
                 'stock',
-                'truck_reception'],
+                'truck_reception',
+                'truck_outlet',
+                'wagon_outlet'],
 
     # always loaded
     'data': [

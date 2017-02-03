@@ -36,13 +36,16 @@ class location_details(models.Model):
             self.total_tons_reception = 0    
 
     @api.one
-    @api.depends('truck_outlet')
+    @api.depends('truck_outlet','wagon_outlet')
     def _compute_total_outlet(self):
-        if len(self.truck_outlet) > 0:
-            tons = 0
+        if len(self.truck_outlet) > 0 or len(self.wagon_outlet) > 0:
+            tons_truck = 0
+            tons_wagon = 0
             for record in self.truck_outlet:
-                tons += record.raw_kilos
-            self.total_tons_outlet = tons / 1000
+                tons_truck += record.raw_kilos
+            for record in self.wagon_outlet:
+                tons_wagon += record.raw_kilos
+            self.total_tons_outlet = (tons_truck + tons_wagon) / 1000
         else:
             self.total_tons_outlet = 0
 
