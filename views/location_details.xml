@@ -22,7 +22,7 @@
                                         <field name="percentage_quality_impurity" string="Impureza"/>
                                         <field name="percentage_quality_break" string="Quebrado"/>
                                       </group>
-                                      <group col="2" string="Descontado">
+                                      <group col="2" string="Descontado(Kilos)">
                                         <field name="wet_kilos_discount" string="Por Humedad"/>
                                         <field name="damaged_kilos_discount" string="Por Dano"/>
                                         <field name="impure_kilos_discount" string="Por Impureza"/>

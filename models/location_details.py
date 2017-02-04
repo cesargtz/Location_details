@@ -68,7 +68,7 @@ class location_details(models.Model):
             tons = 0
             for record in self.truck_reception:
                 tons += record.humid_kilos
-            self.wet_kilos_discount = tons / 1000
+            self.wet_kilos_discount = tons
         else:
             self.wet_kilos_discount = 0
 
@@ -79,7 +79,7 @@ class location_details(models.Model):
             tons = 0
             for record in self.truck_reception:
                 tons += record.damaged_kilos
-            self.damaged_kilos_discount = tons / 1000
+            self.damaged_kilos_discount = tons
         else:
             self.damaged_kilos_discount = 0
 
@@ -90,7 +90,7 @@ class location_details(models.Model):
             tons = 0
             for record in self.truck_reception:
                 tons += record.impure_kilos
-            self.impure_kilos_discount = tons / 1000
+            self.impure_kilos_discount = tons
         else:
             self.impure_kilos_discount = 0
 
@@ -101,7 +101,7 @@ class location_details(models.Model):
             tons = 0
             for record in self.truck_reception:
                 tons += record.broken_kilos
-            self.broken_kilos_discount = tons / 1000
+            self.broken_kilos_discount = tons
         else:
             self.broken_kilos_discount = 0
 
