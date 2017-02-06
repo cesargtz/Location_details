@@ -49,17 +49,20 @@ class location_details(models.Model):
         else:
             self.total_tons_outlet = 0
 
+
     @api.one
     @api.depends('truck_reception')
     def _compute_quality_reception(self):
         if len(self.truck_reception) > 0:
+            sum_total = 0
             total_tons = 0
-            total_quality = 0
             for record in self.truck_reception:
-                total_quality += record.humidity_rate
-                total_tons =+ record.clean_kilos
-            total_tons = (total_tons / 1000)
-            self.percentage_quality_reception = float((total_tons * total_quality) / (total_tons))
+                quality = record.humidity_rate
+                tons = record.clean_kilos / 1000
+                total_tons += tons
+                total = tons * quality
+                sum_total += total
+            self.percentage_quality_reception = float(sum_total / total_tons)
         else:
             self.percentage_quality_reception = 0
 
@@ -111,13 +114,15 @@ class location_details(models.Model):
     @api.depends('truck_reception')
     def _compute_quality_damaged(self):
         if len(self.truck_reception) > 0:
+            sum_total = 0
             total_tons = 0
-            total_quality = 0
             for record in self.truck_reception:
-                total_quality += record.damage_rate
-                total_tons =+ record.clean_kilos
-            total_tons = (total_tons / 1000)
-            self.percentage_quality_damaged = float((total_tons * total_quality) / (total_tons))
+                quality = record.damage_rate
+                tons = record.clean_kilos / 1000
+                total_tons += tons
+                total = tons * quality
+                sum_total += total
+            self.percentage_quality_damaged = float(sum_total / total_tons)
         else:
             self.percentage_quality_damaged = 0
 
@@ -126,13 +131,15 @@ class location_details(models.Model):
     @api.depends('truck_reception')
     def _compute_quality_impurity(self):
         if len(self.truck_reception) > 0:
+            sum_total = 0
             total_tons = 0
-            total_quality = 0
             for record in self.truck_reception:
-                total_quality += record.impurity_rate
-                total_tons =+ record.clean_kilos
-            total_tons = (total_tons / 1000)
-            self.percentage_quality_impurity = float((total_tons * total_quality) / (total_tons))
+                quality = record.impurity_rate
+                tons = record.clean_kilos / 1000
+                total_tons += tons
+                total = tons * quality
+                sum_total += total
+            self.percentage_quality_impurity = float(sum_total / total_tons)
         else:
             self.percentage_quality_impurity = 0
 
@@ -141,13 +148,15 @@ class location_details(models.Model):
     @api.depends('truck_reception')
     def _compute_quality_break(self):
         if len(self.truck_reception) > 0:
+            sum_total = 0
             total_tons = 0
-            total_quality = 0
             for record in self.truck_reception:
-                total_quality += record.break_rate
-                total_tons =+ record.clean_kilos
-            total_tons = (total_tons / 1000)
-            self.percentage_quality_break = float((total_tons * total_quality) / (total_tons))
+                quality = record.break_rate
+                tons = record.clean_kilos / 1000
+                total_tons += tons
+                total = tons * quality
+                sum_total += total
+            self.percentage_quality_break = float(sum_total / total_tons)
         else:
             self.percentage_quality_break = 0
 
