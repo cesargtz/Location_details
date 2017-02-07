@@ -10,12 +10,16 @@
                         <notebook>
                             <page string="Details">
                                 <group col="4">
-                                    <group col="3">
+                                    <group col="4">
                                       <group col="2" string="Toneladas">
                                         <field name="total_tons_reception" string="Toneladas de Entrada"/>
                                         <field name="total_tons_outlet" string="Tonedeladas de Salida"/>
                                         <field name="total_tons_available" string="Toneldas disponibles"/>
-                                      </group>       
+                                      </group> 
+                                      <group col="2" string="Transferencias">
+                                        <field name="transfer_origin" string="Transferencias Salientes"/>
+                                        <field name="transfer_dest" string="Transferencias Entrantes"/>
+                                      </group>      
                                       <group col="2" string="Calidad">                             
                                         <field name="percentage_quality_reception" string="Humedad"/>
                                         <field name="percentage_quality_damaged" string="Dano"/>

@@ -24,7 +24,8 @@
                 'stock',
                 'truck_reception',
                 'truck_outlet',
-                'wagon_outlet'],
+                'wagon_outlet',
+                'truck_internal'],
 
     # always loaded
     'data': [

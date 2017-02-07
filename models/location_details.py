@@ -8,7 +8,8 @@ class location_details(models.Model):
     truck_reception = fields.One2many('truck.reception','location_id')
     truck_outlet = fields.One2many('truck.outlet','location_id')
     wagon_outlet = fields.One2many('wagon.outlet','location_id')
-    truck_internal = fields.One2many('truck.internal','location_dest_id')
+    truck_internal = fields.One2many('truck.internal','location_id')
+    truck_internal_dest = fields.One2many('truck.internal','location_dest_id')
 
     total_tons_reception = fields.Float(compute="_compute_total_reception", store=False, readonly=True)
     total_tons_outlet = fields.Float(compute="_compute_total_outlet", store=False, readonly=True)
@@ -23,6 +24,9 @@ class location_details(models.Model):
     damaged_kilos_discount = fields.Float(compute="_compute_damaged_kilos", store=False, readonly=True)
     impure_kilos_discount = fields.Float(compute="_compute_impure_kilos", store=False, readonly=True)
     broken_kilos_discount = fields.Float(compute="_compute_broken_kilos", store=False, readonly=True)
+
+    transfer_origin = fields.Float(compute="_compute_transfer_origin", store=False, readonly=True)
+    transfer_dest = fields.Float(compute="_compute_transfer_dest", store=False, readonly=True)
 
     @api.one
     @api.depends('truck_reception')
@@ -51,20 +55,27 @@ class location_details(models.Model):
 
 
     @api.one
-    @api.depends('truck_reception')
+    @api.depends('truck_reception', 'truck_internal_dest')
     def _compute_quality_reception(self):
-        if len(self.truck_reception) > 0:
-            sum_total = 0
-            total_tons = 0
+        sum_total = 0
+        total_tons = 0
+        if len(self.truck_reception) > 0 or len(self.truck_internal_dest) > 0:
             for record in self.truck_reception:
                 quality = record.humidity_rate
                 tons = record.clean_kilos / 1000
                 total_tons += tons
                 total = tons * quality
-                sum_total += total
+                sum_total += total    
+            for record in self.truck_internal_dest:
+                if record.humidity_rate_dest > 0:
+                    quality = record.humidity_rate_dest
+                    tons = record.clean_kilos_dest / 1000
+                    total_tons += tons
+                    total = tons * quality
+                    sum_total += total
             self.percentage_quality_reception = float(sum_total / total_tons)
         else:
-            self.percentage_quality_reception = 0
+            self.percentage_quality_reception = 0        
 
     @api.one
     @api.depends('truck_reception')
@@ -111,9 +122,9 @@ class location_details(models.Model):
             self.broken_kilos_discount = 0
 
     @api.one
-    @api.depends('truck_reception')
+    @api.depends('truck_reception','truck_internal_dest')
     def _compute_quality_damaged(self):
-        if len(self.truck_reception) > 0:
+        if len(self.truck_reception) > 0 or len(self.truck_internal_dest) > 0:
             sum_total = 0
             total_tons = 0
             for record in self.truck_reception:
@@ -122,15 +133,22 @@ class location_details(models.Model):
                 total_tons += tons
                 total = tons * quality
                 sum_total += total
+            for record in self.truck_internal_dest:
+                if record.damage_rate_dest > 0:
+                    quality = record.damage_rate_dest
+                    tons = record.clean_kilos_dest / 1000
+                    total_tons += tons
+                    total = tons * quality
+                    sum_total += total
             self.percentage_quality_damaged = float(sum_total / total_tons)
         else:
             self.percentage_quality_damaged = 0
 
 
     @api.one
-    @api.depends('truck_reception')
+    @api.depends('truck_reception','truck_internal_dest')
     def _compute_quality_impurity(self):
-        if len(self.truck_reception) > 0:
+        if len(self.truck_reception) > 0 or len(self.truck_internal_dest) > 0:
             sum_total = 0
             total_tons = 0
             for record in self.truck_reception:
@@ -139,15 +157,22 @@ class location_details(models.Model):
                 total_tons += tons
                 total = tons * quality
                 sum_total += total
+            for record in self.truck_internal_dest:
+                if record.impurity_rate_dest > 0:
+                    quality = record.impurity_rate_dest
+                    tons = record.clean_kilos_dest / 1000
+                    total_tons += tons
+                    total = tons * quality
+                    sum_total += total
             self.percentage_quality_impurity = float(sum_total / total_tons)
         else:
             self.percentage_quality_impurity = 0
 
 
     @api.one
-    @api.depends('truck_reception')
+    @api.depends('truck_reception','truck_internal_dest')
     def _compute_quality_break(self):
-        if len(self.truck_reception) > 0:
+        if len(self.truck_reception) > 0  or len(self.truck_internal_dest) > 0:
             sum_total = 0
             total_tons = 0
             for record in self.truck_reception:
@@ -156,6 +181,13 @@ class location_details(models.Model):
                 total_tons += tons
                 total = tons * quality
                 sum_total += total
+            for record in self.truck_internal_dest:
+                if record.break_rate_dest > 0:
+                    quality = record.break_rate_dest
+                    tons = record.clean_kilos_dest / 1000
+                    total_tons += tons
+                    total = tons * quality
+                    sum_total += total
             self.percentage_quality_break = float(sum_total / total_tons)
         else:
             self.percentage_quality_break = 0
@@ -164,4 +196,26 @@ class location_details(models.Model):
     @api.one
     @api.depends('total_tons_reception','total_tons_outlet')
     def _compute_total_available(self):
-        self.total_tons_available = self.total_tons_reception - self.total_tons_outlet
+        self.total_tons_available = (self.total_tons_reception + self.transfer_dest) - (self.total_tons_outlet + self.transfer_origin)
+
+    @api.one
+    @api.depends('truck_internal')
+    def _compute_transfer_origin(self):
+        if len(self.truck_internal) > 0:
+            tons_origin = 0
+            for record in self.truck_internal:
+                tons_origin += record.clean_kilos / 1000
+            self.transfer_origin = tons_origin
+        else:
+            self.transfer_origin = 0.0
+
+    @api.one
+    @api.depends('truck_internal_dest')
+    def _compute_transfer_dest(self):
+         if len(self.truck_internal_dest) > 0:
+            tons_origin = 0
+            for record in self.truck_internal_dest:
+                tons_origin += record.clean_kilos_dest / 1000
+            self.transfer_dest = tons_origin
+         else:
+            self.transfer_dest = 0.0
