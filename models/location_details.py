@@ -78,45 +78,53 @@ class location_details(models.Model):
             self.percentage_quality_reception = 0        
 
     @api.one
-    @api.depends('truck_reception')
+    @api.depends('truck_reception','truck_internal_dest')
     def _compute_wet_kilos(self):
-        if len(self.truck_reception) > 0:
+        if len(self.truck_reception) > 0 or len(self.truck_internal_dest) > 0:
             tons = 0
             for record in self.truck_reception:
                 tons += record.humid_kilos
+            for record in self.truck_internal_dest:
+                tons += record.humid_kilos_dest
             self.wet_kilos_discount = tons
         else:
             self.wet_kilos_discount = 0
 
     @api.one
-    @api.depends('truck_reception')
+    @api.depends('truck_reception','truck_internal_dest')
     def _compute_damaged_kilos(self):
-        if len(self.truck_reception) > 0:
+        if len(self.truck_reception) > 0 or len(self.truck_internal_dest) > 0:
             tons = 0
             for record in self.truck_reception:
                 tons += record.damaged_kilos
+            for record in self.truck_internal_dest:
+                tons += record.damaged_kilos_dest
             self.damaged_kilos_discount = tons
         else:
             self.damaged_kilos_discount = 0
 
     @api.one
-    @api.depends('truck_reception')
+    @api.depends('truck_reception','truck_internal_dest')
     def _compute_impure_kilos(self):
-        if len(self.truck_reception) > 0:
+        if len(self.truck_reception) > 0 or len(self.truck_internal_dest) > 0:
             tons = 0
             for record in self.truck_reception:
                 tons += record.impure_kilos
+            for record in self.truck_internal_dest:
+                tons += record.impure_kilos_dest
             self.impure_kilos_discount = tons
         else:
             self.impure_kilos_discount = 0
 
     @api.one
-    @api.depends('truck_reception')
+    @api.depends('truck_reception','truck_internal_dest')
     def _compute_broken_kilos(self):
-        if len(self.truck_reception) > 0:
+        if len(self.truck_reception) > 0 or len(self.truck_internal_dest) > 0:
             tons = 0
             for record in self.truck_reception:
                 tons += record.broken_kilos
+            for record in self.truck_internal_dest:
+                tons += record.broken_kilos_dest
             self.broken_kilos_discount = tons
         else:
             self.broken_kilos_discount = 0

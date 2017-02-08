@@ -16,9 +16,9 @@
                                         <field name="total_tons_outlet" string="Tonedeladas de Salida"/>
                                         <field name="total_tons_available" string="Toneldas disponibles"/>
                                       </group> 
-                                      <group col="2" string="Transferencias">
-                                        <field name="transfer_origin" string="Transferencias Salientes"/>
+                                      <group col="2" string="Transferencias">       
                                         <field name="transfer_dest" string="Transferencias Entrantes"/>
+                                        <field name="transfer_origin" string="Transferencias Salientes"/>
                                       </group>      
                                       <group col="2" string="Calidad">                             
                                         <field name="percentage_quality_reception" string="Humedad"/>
@@ -29,8 +29,8 @@
                                       <group col="2" string="Descontado(Kilos)">
                                         <field name="wet_kilos_discount" string="Por Humedad"/>
                                         <field name="damaged_kilos_discount" string="Por Dano"/>
-                                        <field name="impure_kilos_discount" string="Por Impureza"/>
                                         <field name="broken_kilos_discount" string="Por Quebrado"/>
+                                        <field name="impure_kilos_discount" string="Por Impureza"/>
                                       </group>
                                     </group>
                                 </group>
