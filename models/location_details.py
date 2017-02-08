@@ -68,8 +68,12 @@ class location_details(models.Model):
                 sum_total += total    
             for record in self.truck_internal_dest:
                 if record.humidity_rate_dest > 0:
-                    quality = record.humidity_rate_dest
-                    tons = record.clean_kilos_dest / 1000
+                    if record.stock_destination:
+                        quality = record.humidity_rate_dest
+                        tons = record.clean_kilos_dest / 1000
+                    else:
+                        quality = record.humidity_rate
+                        tons = record.clean_kilos / 1000
                     total_tons += tons
                     total = tons * quality
                     sum_total += total
@@ -85,7 +89,10 @@ class location_details(models.Model):
             for record in self.truck_reception:
                 tons += record.humid_kilos
             for record in self.truck_internal_dest:
-                tons += record.humid_kilos_dest
+                if record.stock_destination:
+                    tons += record.humid_kilos_dest
+                else:
+                    tons += record.humid_kilos
             self.wet_kilos_discount = tons
         else:
             self.wet_kilos_discount = 0
@@ -98,7 +105,10 @@ class location_details(models.Model):
             for record in self.truck_reception:
                 tons += record.damaged_kilos
             for record in self.truck_internal_dest:
-                tons += record.damaged_kilos_dest
+                if record.stock_destination:
+                    tons += record.damaged_kilos_dest
+                else:
+                    tons += record.damaged_kilos
             self.damaged_kilos_discount = tons
         else:
             self.damaged_kilos_discount = 0
@@ -111,7 +121,10 @@ class location_details(models.Model):
             for record in self.truck_reception:
                 tons += record.impure_kilos
             for record in self.truck_internal_dest:
-                tons += record.impure_kilos_dest
+                if record.stock_destination:
+                    tons += record.impure_kilos_dest
+                else:
+                    tons += record.impure_kilos
             self.impure_kilos_discount = tons
         else:
             self.impure_kilos_discount = 0
@@ -124,7 +137,10 @@ class location_details(models.Model):
             for record in self.truck_reception:
                 tons += record.broken_kilos
             for record in self.truck_internal_dest:
-                tons += record.broken_kilos_dest
+                if record.stock_destination:
+                    tons += record.broken_kilos_dest
+                else:
+                    tons += record.broken_kilos
             self.broken_kilos_discount = tons
         else:
             self.broken_kilos_discount = 0
@@ -143,8 +159,12 @@ class location_details(models.Model):
                 sum_total += total
             for record in self.truck_internal_dest:
                 if record.damage_rate_dest > 0:
-                    quality = record.damage_rate_dest
-                    tons = record.clean_kilos_dest / 1000
+                    if record.stock_destination:
+                        quality = record.damage_rate_dest
+                        tons = record.clean_kilos_dest / 1000
+                    else:
+                        quality = record.damage_rate
+                        tons = record.clean_kilos / 1000
                     total_tons += tons
                     total = tons * quality
                     sum_total += total
@@ -167,8 +187,12 @@ class location_details(models.Model):
                 sum_total += total
             for record in self.truck_internal_dest:
                 if record.impurity_rate_dest > 0:
-                    quality = record.impurity_rate_dest
-                    tons = record.clean_kilos_dest / 1000
+                    if record.stock_destination:
+                        quality = record.impurity_rate_dest
+                        tons = record.clean_kilos_dest / 1000
+                    else:
+                        quality = record.impurity_rate
+                        tons = record.clean_kilos / 1000
                     total_tons += tons
                     total = tons * quality
                     sum_total += total
@@ -191,8 +215,12 @@ class location_details(models.Model):
                 sum_total += total
             for record in self.truck_internal_dest:
                 if record.break_rate_dest > 0:
-                    quality = record.break_rate_dest
-                    tons = record.clean_kilos_dest / 1000
+                    if record.stock_destination:
+                        quality = record.break_rate_dest
+                        tons = record.clean_kilos_dest / 1000
+                    else:
+                        quality = record.break_rate
+                        tons = record.clean_kilos / 1000
                     total_tons += tons
                     total = tons * quality
                     sum_total += total
@@ -212,7 +240,10 @@ class location_details(models.Model):
         if len(self.truck_internal) > 0:
             tons_origin = 0
             for record in self.truck_internal:
-                tons_origin += record.clean_kilos / 1000
+                if record.stock_destination:
+                    tons_origin += record.clean_kilos_dest / 1000
+                else:
+                    tons_origin += record.clean_kilos / 1000
             self.transfer_origin = tons_origin
         else:
             self.transfer_origin = 0.0
@@ -221,9 +252,12 @@ class location_details(models.Model):
     @api.depends('truck_internal_dest')
     def _compute_transfer_dest(self):
          if len(self.truck_internal_dest) > 0:
-            tons_origin = 0
+            tons_dest = 0
             for record in self.truck_internal_dest:
-                tons_origin += record.clean_kilos_dest / 1000
-            self.transfer_dest = tons_origin
+                if record.stock_destination:
+                    tons_dest += record.clean_kilos_dest / 1000
+                else:
+                    tons_dest += record.clean_kilos / 1000
+            self.transfer_dest = tons_dest
          else:
             self.transfer_dest = 0.0
