@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+<data>
+    <record model="ir.ui.view" id="warehouse_details_fields_view">
+        <field name="name">warehouse.details.fields</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.view_warehouse"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='code']" position="after">
+                <field name="in_tons"/>
+                <field name="out_tons"/>
+                <field name="available_tons"/>
+                <field name="locations"/>
+            </xpath>
+        </field>
+    </record>
+</data>
+</openerp>
+
